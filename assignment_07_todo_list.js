@@ -81,4 +81,92 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require("readline-sync");
 
+let tasks = [];
+/* Add task */
+function addTask() {
+  const description = readlineSync.question("Enter task: ");
+  tasks.push(description);
+  console.log('Task added: "' + description + '"');
+}
+
+/* Displaying all tasks */
+function viewTasks() {
+  if (tasks.length === 0) {
+    console.log("You have no tasks yet.");
+    return;
+  }
+
+  console.log("Your tasks: ");
+  for (let i = 0; i < tasks.length; i++) {
+    console.log(i + 1 + ". " + tasks[i]);
+  }
+
+}
+
+
+
+/* Delete tasks and show current tasks */
+function deleteTask() {
+  if (tasks.lenght === 0) {
+    console.log("You have no tasks to delete.");
+    return;
+  }
+
+  viewTasks();
+  const taskNumber = readlineSync.questionInt("Enter task number to delete: ");
+  const index = taskNumber - 1;
+
+  if (index < 0 || index >= tasks.length) {
+    console.log("Error: Invalid task number.");
+    return;
+  }
+
+  const removed = tasks[index];
+  tasks.splice(index, 1);
+  console.log('Task "' + removed + '" has been removed.');
+}
+
+
+/* Menu Options */
+function printMenu() {
+  console.log("=======================");
+  console.log("       TO-DO LIST MENU");
+  console.log("=======================");
+  console.log("1. Add task");
+  console.log("2, View tasks");
+  console.log("3. Delete task");
+  console.log("4. Quit");
+}
+
+/* Main Program */
+function main() {
+  let running = true;
+
+  while (running) {
+    printMenu();
+    const choice = readlineSync.questionInt("Enter your choice 1 - 4: ");
+    console.log("");
+
+    if (choice === 1) {
+      addTask();
+    }
+    else if (choice === 2) {
+      viewTasks();
+    
+    }
+    else if (choice === 4) {
+      console.log("Goodbye!");
+    
+    running = false;
+
+  }
+  else {
+    console.log("Error: Please choose a number between 1 and 4.");
+  }
+
+console.log("");
+  }
+}
+main();
