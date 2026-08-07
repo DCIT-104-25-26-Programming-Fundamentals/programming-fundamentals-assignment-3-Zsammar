@@ -60,3 +60,71 @@
 // =============================================================================
 
 
+const readlineSync = require("readline-sync");
+
+/* printing a single number for 1 to 12. */
+function printTable(num) {
+  console.log("Multiplication Table for " + num + ":");
+
+  for ( let i = 1; i <= 12; i++) {
+    console.log(num + " x " + i + " = " + num * i);
+  }
+}
+
+/*multiplication from 1 to n */
+function printUpToN(n) {
+  for (let num = 1; num <= n; num++) {
+    printTable(num);
+
+    if (num < n) {
+      console.log("-------------------------");
+    }
+  }
+}
+
+
+/* PART A */
+function runSingleTable() {
+  const num = readlineSync.questionInt("Enter a number: ");
+  console.log("");
+  printTable(num);
+}
+
+
+/* PART B */
+function runUpToN() {
+  const n = readlineSync.questionInt("Enter a number N: ");
+  
+
+  if (n <= 0) {
+    console.log("Error: N must be a positive integer.");
+    return;
+  }
+
+console.log("");
+printUpToN(n);
+}
+
+
+/* Main program */
+function main() {
+  console.log("Multiplication Table");
+  console.log("1. Single table");
+  console.log("2. Tables from 1 to N.");
+  
+  const choice = readlineSync.questionInt("Choose an option (1 - 2): ");
+  console.log("");
+
+  if ( choice === 1) {
+    runSingleTable();
+  }
+  else if (choice === 2) {
+    runUpToN();
+  }
+  else {
+    console.log("Error: Please choose from 1 and 2.");
+  }
+}
+
+
+main();
