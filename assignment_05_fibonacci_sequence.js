@@ -54,4 +54,84 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require("readline-sync");
 
+/* generating first n terms */
+function getFibonacci(n) {
+  const sequence = [];
+
+  for (let i = 0; i < n; i++) {
+    if ( i === 0) {
+      sequence.push(0);
+    }
+    else if ( i === 1) {
+      sequence.push(1);
+    }
+    else {
+      sequence.push(sequence[i - 1] + sequence[i - 2]);
+    }
+  }
+  return sequence;
+}
+
+
+/* Determine whether a number is in Fibonacci sequence. */
+
+function isFibonacci(num) {
+  if (num < 0) {
+    return false;
+  }
+
+  /* prev =  previous and curr = current */
+  let prev = 0;
+  let curr = 1;
+
+  if (num === 0) {
+    return true;
+  }
+
+  while (curr < num) {
+    const next = prev + curr;
+    prev = curr;
+    curr = next;
+  }
+  return curr === num;
+}
+
+
+
+/* Signals for N and print first N terms. */
+function runFirstNTerms() {
+  const n = readlineSync.questionInt("How many terms? ");
+
+  if (n <= 0) {
+    console.log("Error: N must be a positive integer.");
+    return ;
+  }
+
+  const sequence = getFibonacci(n);
+  console.log("Fibonacci sequence: " + sequence.join(" "));
+}
+
+/* check if a number entered is Fibonacci. */
+function runCheckMembership() {
+  const num = readlineSync.questionInt("Enter a number to chcek: ");
+
+  if (isFibonacci(num)) {
+    console.log(num + " is a Fibonacci number.");
+  }
+  else {
+    console.log(num + "is NOT  a Fibonacci number.");
+  }
+}
+
+/* Main program */
+function main() {
+  console.log("-- PART A: FIRST N TERMS --");
+  runFirstNTerms();
+
+  console.log("\n-- PART B: CHECK MEMBERSHIP --");
+  runCheckMembership();
+}
+
+main();
