@@ -84,4 +84,128 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require("readline-sync");
+
+let students = [];
+
+function findAverage(scores) {
+  let sum = 0;
+  for (let i = 0; i < scores.length; i++) {
+    sum += scores[i];
+  }
+  return sum / scores.length;
+}
+
+function findStudentById(id) {
+  for (let i = 0; i < students.length; i++) {
+    if (students[i].id === id) {
+      return students[i];
+    }
+  }
+  return undefined;
+}
+
+
+function addStudent() {
+  const name = readlineSync.question("Student name: ");
+  const id = readlineSync.questionInt("Student ID: ");
+  
+  if(findStudentById(id) !== undefined) {
+    console.log("Error: A student with that ID already exists.");
+    return;
+  }
+
+const numScores = readlineSync.questionInt("How mnay scores? ");
+const scores = [];
+
+for (let i = 0; i < numScores; i++) {
+  const score = readlineSync.questionInt("Enter score " + (i + 1) + ": ");
+  scores.push(score);
+}
+
+students.push({ name: name, id: id, scores: scores });
+console.log('Student "' + name + '" added successfully.');
+}
+
+function displayAllStudents() {
+  if (students.length === 0) {
+    console.log("No students have been added yet.");
+    return;
+  }
+
+  console.log("Name                  ID                   Scores         Average  ");
+  console.log("-------------------------------------------------------------------");
+
+  for (let i = 0; i < students.length; i++) {
+    const student = students[i];
+    const average = findAverage(student.scores).toFixed(2);
+
+    console.log(
+      student.name.padEnd(20) +
+      " " +
+      String(student.id).padEnd(11) +
+      " " +
+      student.scores.join(", "),padEnd(20) +
+      " " +
+      average
+    );
+  }
+}
+
+
+function findAverageForStudent() {
+  const id = readlineSync.questionInt("Enter student ID: ");
+  const student = findStudentById(id);
+
+  if (student === undefined) {
+    console.log("Error: No student found with ID " + id + ".");
+    return;
+  }
+
+  const average = findAverage(student.scores).toFixed(2);
+  console.log(student.name + "'s average score: " + average);
+}
+
+
+function printMenu() {
+  console.log("======================================");
+  console.log("    STUDENT RECORD SYSTEM MENU");
+  console.log("======================================");
+  console.log("1. Add student");
+  console.log("2. Display all students")
+  console.log("3. Calculate average score");
+  console.log("4. Quit");
+}
+
+
+/* Main Program */
+function main() {
+  let running = true;
+
+  while (running) {
+    printMenu();
+    const choice = readlineSync.questionInt("Enter your choice 1 - 4: ");
+    console.log("");
+
+    if (choice === 1) {
+      addStudent();
+    }
+    else if (choice === 2) {
+      displayAllStudents();
+    }
+    else if (choice === 3) {
+      findAverageForStudent();
+    }
+    else if (choice === 4) {
+      console.log("Goodbye!");
+      running = false;
+    }
+    else {
+      console.log("Error: Please choose a number between 1 and 4.");
+    }
+    console.log("");
+  }
+}
+
+main();
 
